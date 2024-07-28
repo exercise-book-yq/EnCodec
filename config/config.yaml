@@ -1,0 +1,66 @@
+common:
+  save_interval: 2
+  test_interval: 1
+  max_epoch: 1000
+  seed: 3401
+  amp: False
+
+datasets:
+  
+  input_training_file: "/home/Datasets2/youqiang/Datasets/LibriTTS/LibriTTS/training-16kHz.txt"
+  input_validation_file: "/home/Datasets2/youqiang/Datasets/LibriTTS/LibriTTS/validation-16kHz.txt"
+  input_wavs_dir: "/home/Datasets2/youqiang/Datasets/"
+  input_validation_dir: "/home/Datasets2/youqiang/Datasets/"
+  batch_size: 32
+  tensor_cut: 16000
+  num_workers: 0
+  fixed_length: 0
+  pin_memory: True
+
+checkpoint:
+  resume: False
+  checkpoint_path: '/home/Datasets2/youqiang/cp_hifigan/LibriTTS/encodec-smbp/1000bps/raw-nosmbp-causal/'
+  disc_checkpoint_path: ''
+  save_folder: '/home/Datasets1/youqiang/cp_hifigan/VCTK/encodec/checkpoints/'
+  save_location: '${checkpoint.save_folder}batch${datasets.batch_size}_cut${datasets.tensor_cut}_length${datasets.fixed_length}_' 
+
+optimization:
+  lr: 3e-4
+  disc_lr: 3e-4
+
+lr_scheduler:
+  warmup_epoch: 0
+
+model:
+  target_bandwidths: [1.]
+  sample_rate: 16_000
+  channels: 1
+  train_discriminator: True
+  audio_normalize: True
+  filters: 32
+
+distributed:
+  data_parallel: False
+  world_size: 4
+  find_unused_parameters: False
+  torch_distributed_debug: False
+
+num_gpus: 1
+num_mels: 80
+num_freq: 1025
+n_fft: 1024
+hop_size: 160
+win_size: 640
+fmin: 0
+fmax: 8000
+fmax_for_loss: null
+
+stdout_interval: 5
+checkpoint_interval: 5000
+summary_interval: 100
+validation_interval: 1000
+sampling_rate: 16_000
+seed: 1234
+data_max_length: 16_000
+num_workers: 16
+segment_size: 16_000
